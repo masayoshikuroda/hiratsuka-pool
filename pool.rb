@@ -1,6 +1,7 @@
 require 'date'
 require 'open-uri'
 require 'nokogiri'
+require 'pdftotext'
 
 #
 # 調べる日付を取得
@@ -50,7 +51,6 @@ open(pdfurl) do |file|
   end
 end
 
-
 #
 # PDF中の日付キーワードを作成
 #
@@ -60,6 +60,22 @@ filter = " " + filter if (day < 10)
 #puts filter
 
 #
-# PDF中から指定日付の予定を抽出
+# 予定表を文字列で取得
 #
-exec("sh", "pool.sh", pdf_name, filter)
+pages = Pdftotext.pages(pdf_name)
+text = pages.first.text
+#puts text
+lines = text.split(/\r?\n/).slice(6, 31)
+#puts lines[0]
+#puts lines[30]
+
+#
+# 予定表から指定日のイベントを抽出
+#
+line = lines.find{|l| l.include?(filter)}
+#puts line
+fields = line.split(filter)
+field = fields[1].lstrip
+#p field
+event = field.slice(1, field.length - 2).strip
+puts event
