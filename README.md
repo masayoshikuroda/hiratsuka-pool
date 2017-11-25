@@ -7,8 +7,8 @@
 
 ## ライブラリ
 ```
-$ apt-get install poppler
-$ gem install open-uri
+$ apt-get install poppler-utils
+$ atp-get install ruby
 $ gem install nokogiri
 
 ```
