@@ -1,8 +1,8 @@
 require 'date'
 require 'open-uri'
 require 'nokogiri'
-require './pool_event.rb'
-require './pool_time.rb'
+require_relative 'pool_event.rb'
+require_relative 'pool_time.rb'
 
 BASE_URL = 'http://www.city.hiratsuka.kanagawa.jp'
 POOL_URL = BASE_URL + '/koen/page-c_00812.html'
