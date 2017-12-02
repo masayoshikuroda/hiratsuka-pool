@@ -46,13 +46,19 @@ end
 
 PAGE = 1
 ROW = 6
-X = 149
-Y = 240
+
+pdf_name = "pool.pdf"
+date = Date.today + ARGV[0].to_i
+
+if date.month == 11 then
+  X = 149
+  Y = 240
+else
+  X = 160
+  Y = 275
+end
 W = 680
 H = 1011
-
-date = Date.today + ARGV[0].to_i
-pdf_name = 'pool.pdf'
 
 pdf_url = get_pdf_link(date)
 download_link(pdf_url, pdf_name)
@@ -79,11 +85,11 @@ else
   else
     schedule.each do |s|
       if s[0] == 1 then
-        message += "50M 3コースを、"
+        message += "50メートル 3コースを、"
       elsif s[0] == 2 then
-         message += "50M 2コースを、"
+         message += "50メートル 2コースを、"
       elsif s[0] == 3 then
-         message += "25Mコースを、"
+         message += "25メートルコースを、"
       end
       message += to_jikoku(s[1]) + "から"
       message += to_jikoku(s[2]) + "まで利用できます。"

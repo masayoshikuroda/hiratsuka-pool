@@ -129,7 +129,7 @@ def get_status_list(pdf_name, page, x, y, w, h, day)
   return status
 end
 
-puts get_status_list(ARGV[0], 1, 149, 249, 680, 1011, ARGV[1].to_i).join(",")
+#puts get_status_list(ARGV[0], 1, 149, 249, 680, 1011, ARGV[1].to_i).join(",")
 
 def get_schedule(status)
   scwa = CWIDTH.map.with_index{|cw, i| [ status[i], cw[2], cw[3] ]}
@@ -150,4 +150,4 @@ def get_schedule(status)
   return schedule
 end
 
-p get_schedule(get_status_list(ARGV[0], 1, 149,249, 680, 1011, ARGV[1].to_i))
+#p get_schedule(get_status_list(ARGV[0], 1, 149,249, 680, 1011, ARGV[1].to_i))
