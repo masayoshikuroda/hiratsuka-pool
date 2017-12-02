@@ -37,6 +37,12 @@ def download_link(pdfurl, pdf_name)
   end
 end
 
+def to_jikoku(val)
+	hm = val.to_s.split(".")
+  jikoku = hm[0] + "時"
+  jikoku += hm[1] == "0" ? "" : "30分"
+  return jikoku
+end
 
 PAGE = 1
 ROW = 6
@@ -58,7 +64,7 @@ events = events.map{|s| s.sub(/アクア/,   'アクアビス教室')}
 events = events.map{|s| s.sub(/水泳体操/, 'はつらつ水泳体操')}
 events = events.map{|s| s.sub(/消防/,    '平塚消防水難訓練')}
 status = get_status_list(pdf_name, PAGE, X, Y, W, H, date.day)
-status = status.slice(2, status.length - 4)
+schedule = get_schedule(status)
 
 message = ''
 if events.length == 1 && events[0] == '休館日' then
@@ -68,22 +74,26 @@ else
     message += events.join('、') + 'があります。'
   end
 
-  if status.reduce{ | sum, n | sum + n } == 0 then
+  if schedule.length == 0 then
     message += '利用できる時間はありません。'
-  elsif status.find_all{ | n | n == 1 }.length == status.length then
-    message += '終日 50M 3コースを利用できます。'
-  elsif status.find_all{ | n | n == 2 }.length == status.length then
-    message += '終日 50M 2コースを利用できます。'
-  elsif status.find_all{ | n | n == 3 }.length == status.length then
-    message += '終日 25Mコースを利用できます。'
   else
-    message += '平塚市のホームページでスケジュールを確認してください。'
+    schedule.each do |s|
+      if s[0] == 1 then
+        message += "50M 3コースを、"
+      elsif s[0] == 2 then
+         message += "50M 2コースを、"
+      elsif s[0] == 3 then
+         message += "25Mコースを、"
+      end
+      message += to_jikoku(s[1]) + "から"
+      message += to_jikoku(s[2]) + "まで利用できます。"
+    end
   end
 end
 
 puts '{'
-puts '  "pool":    ' + '”平塚市総合公園温水プール”' + ','
-puts '  "date":    ' + date.strftime('”%Y年%m月%d日”') + ','
+puts '  "pool":    ' + '"平塚市総合公園温水プール"' + ','
+puts '  "date":    ' + date.strftime('"%Y年%m月%d日"') + ','
 puts '  "events":  ' + events.to_s + ','
 puts '  "status":  ' + status.to_s + ', '
 puts '  "message": ' + sprintf('"%s"', message)
