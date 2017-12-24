@@ -22,3 +22,11 @@ $ ruby pool 1
 休館日
 $
 ```
+
+### PDF取得
+```
+$ ruby -r./pool_pdf -e "PoolPdf.new(Date.today + 1)"
+$ ls -l poo.pdf
+pool.pdf
+$
+```
