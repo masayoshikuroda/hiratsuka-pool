@@ -30,3 +30,10 @@ $ ls -l poo.pdf
 pool.pdf
 $
 ```
+
+### スケジュール取得
+```
+$ ruby -r./pool_time -e "p PoolTime::get_schedule(PoolTime.new('pool.pdf', 12).get_status_list(1))"
+[[2, 9.5, 12.5], [1, 12.5, 20.5]]
+$
+```
