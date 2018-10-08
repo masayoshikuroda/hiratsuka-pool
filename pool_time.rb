@@ -54,7 +54,7 @@ class PoolTime
 
     clip_pixmap = @pixmap.clip(hstart, hlength, wstart, wlength)
     rgb = clip_pixmap.get_max_rgb
-    p rgb
+    # p rgb
     status = PoolTime::to_status(rgb)
 
     return status
