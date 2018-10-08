@@ -1,4 +1,3 @@
-
 require_relative 'pool_pdf.rb'
 require_relative 'pool_pixmap.rb'
 
@@ -55,6 +54,7 @@ class PoolTime
 
     clip_pixmap = @pixmap.clip(hstart, hlength, wstart, wlength)
     rgb = clip_pixmap.get_max_rgb
+    p rgb
     status = PoolTime::to_status(rgb)
 
     return status
@@ -68,8 +68,10 @@ class PoolTime
         1 # 50m 3 courses
       when "#92cddc" then
         2 # 50m 2 courses
+      when "#92d050" then
+	3 # 50m 1 cource
       when "#ff99cc" then
-        3 # 25m
+        4 # 25m
       else
         0 # red?
     end
@@ -112,9 +114,11 @@ class PoolTime
   end
 end
 
-#date = Date.today + ARGV[0].to_i
-#pool_pdf = PoolPdf.new(date)
-#pool_time = PoolTime.new(PoolPdf::PDF_FILE_NAME, date.month)
-#status_list = pool_time.get_status_list(date.day)
-#p status_list
-#p PoolTime::get_schedule(status_list)
+if $0 == __FILE__ then
+  date = Date.today + ARGV[0].to_i
+# pool_pdf = PoolPdf.new(date)
+  pool_time = PoolTime.new(PoolPdf::PDF_FILE_NAME, date.month)
+  status_list = pool_time.get_status_list(date.day)
+  p status_list
+  p PoolTime::get_schedule(status_list)
+end

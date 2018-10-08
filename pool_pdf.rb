@@ -26,7 +26,7 @@ class PoolPdf
 
     page = Nokogiri::HTML.parse(html, nil, 'UTF-8')
     heisei = date.year - 1988
-    keyword = "温水プール予定表" + heisei.to_s + "年" + date.month.to_s + "月"
+    keyword = "温水プール予定表　平成" + heisei.to_s + "年" + date.month.to_s + "月"
     # puts keyword
     pdf_url = BASE_URL
     page.xpath("//a[contains(text(), '%s')]" % keyword).each do |a|
@@ -47,5 +47,7 @@ class PoolPdf
   end
 end
 
-#date = Date.today + ARGV[1].to_i
-#PoolPdf.new(date)
+if $0 == __FILE__ then
+  date = Date.today + ARGV[1].to_i
+  PoolPdf.new(date)
+end

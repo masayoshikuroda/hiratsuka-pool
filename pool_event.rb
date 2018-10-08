@@ -59,7 +59,9 @@ class PoolEvent
   end
 end
 
-#date = Date.today + ARGV[0].to_i
-#pool_pdf = PoolPdf.new(date)
-#pool_event = PoolEvent.new(PoolPdf::PDF_FILE_NAME)
-#p pool_event.get_events(date.day)
+if $0 == __FILE__ then
+  date = Date.today + ARGV[0].to_i
+  pool_pdf = PoolPdf.new(date)
+  pool_event = PoolEvent.new(PoolPdf::PDF_FILE_NAME)
+  p pool_event.get_events(date.day)
+end

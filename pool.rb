@@ -29,6 +29,8 @@ else
       elsif s[0] == 2 then
          message += "50メートル 2コースを、"
       elsif s[0] == 3 then
+	 message += "50メートル 1コースを、"
+      elsif s[0] == 4 then
          message += "25メートルコースを、"
       end
       message += PoolTime::to_jikoku(s[1]) + "から"
