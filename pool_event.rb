@@ -1,5 +1,6 @@
 require 'date'
 require 'pdftotext'
+require 'tempfile'
 require_relative 'pool_pdf.rb'
 
 class PoolEvent
@@ -32,7 +33,7 @@ class PoolEvent
     fields = line.split(filter)
     field = fields[1].lstrip
     #p field
-    events = field.slice(1, field.length - 2).strip
+    events = field.slice(1, field.length - 1).strip
     return events.split(" ").find_all{|s| not s.empty?}
   end
 
@@ -60,8 +61,13 @@ class PoolEvent
 end
 
 if $0 == __FILE__ then
-  date = Date.today + ARGV[0].to_i
-  pool_pdf = PoolPdf.new(date)
   pool_event = PoolEvent.new(PoolPdf::PDF_FILE_NAME)
-  p pool_event.get_events(date.day)
+  for day in 1...32
+    print day.to_s + "  : "
+    begin
+      p pool_event.get_events(day)
+    rescue => e
+      p e
+    end
+  end
 end
