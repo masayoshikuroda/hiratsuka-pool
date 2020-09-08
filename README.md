@@ -26,7 +26,7 @@ $
 ### PDF取得
 ```
 $ ruby -r./pool_pdf -e "PoolPdf.new(Date.today + 1)"
-$ ls -l poo.pdf
+$ ls -l pool.pdf
 pool.pdf
 $
 ```

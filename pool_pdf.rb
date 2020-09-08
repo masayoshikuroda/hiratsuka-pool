@@ -22,18 +22,19 @@ class PoolPdf
     html = open(POOL_URL) do |f|
       f.read
     end
-    # puts html
+#    puts html
 
     page = Nokogiri::HTML.parse(html, nil, 'UTF-8')
     reiwa = date.year - 2018
     reiwa_to_s = reiwa == 1 ? "元" : reiwa.to_s
-    keyword = "温水プール予定表　令和" + reiwa_to_s + "年" + date.month.to_s + "月"
-    # puts keyword
-    pdf_url = BASE_URL
-    page.xpath("//a[contains(text(), '%s')]" % keyword).each do |a|
-      # puts a
-      pdf_url = pdf_url +  a[:href]
+    keyword = "温水プール利用形式" + date.month.to_s.tr('0-9', '０-９') + "月"
+#    puts keyword
+    pdf_urls = []
+    page.xpath("//a" % keyword).each do |a|
+      href = a[:href]
+      pdf_urls << href if href.end_with?('.pdf')
     end
+    pdf_url = BASE_URL + pdf_urls[pdf_urls.length-2]
     if pdf_url == BASE_URL then
       raise "URLリンクが見つかりません。"
     end
@@ -50,5 +51,8 @@ end
 
 if $0 == __FILE__ then
   date = Date.today + ARGV[1].to_i
+  pdf_url = PoolPdf::get_pdf_url(date)
+  puts pdf_url
+  
   PoolPdf.new(date)
 end
