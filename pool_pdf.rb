@@ -19,7 +19,7 @@ class PoolPdf
   end
 
   def self.get_pdf_url(date)
-    html = open(POOL_URL) do |f|
+    html = URI.open(POOL_URL) do |f|
       f.read
     end
 #    puts html
@@ -43,7 +43,7 @@ class PoolPdf
   end
 
   def self.download_link(pdfurl)
-    open(pdfurl, 'rb') do |file|
+    URI.open(pdfurl, 'rb') do |file|
       return file.read
     end
   end
