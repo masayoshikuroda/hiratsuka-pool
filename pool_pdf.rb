@@ -27,19 +27,21 @@ class PoolPdf
     page = Nokogiri::HTML.parse(html, nil, 'UTF-8')
     reiwa = date.year - 2018
     reiwa_to_s = reiwa == 1 ? "元" : reiwa.to_s
-    keyword = "温水プール利用形式" + date.month.to_s.tr('0-9', '０-９') + "月"
-#    puts keyword
-    pdf_urls = []
-    page.xpath("//a" % keyword).each do |a|
-      href = a[:href]
-      pdf_urls << href if href.end_with?('.pdf')
+    month_to_s = date.month.to_s
+    keyword = "温水プール利用形式令和#{reiwa_to_s}年#{month_to_s}月"
+    xpath = "//p[contains(text(),'温水プールの予定')]"
+    page.xpath(xpath).each do |p|
+      offset = 1
+      pdf_urls = {}
+      p.xpath("a" % keyword).each_with_index do |a, i|
+        if i > 1 then offset = 2 end
+        label = p.xpath("text()[#{i + offset}]").text().gsub(/　/," ").strip()
+        href = a[:href]
+#        puts label + ":" + href
+        pdf_urls[label] = href
+      end
+      return BASE_URL + pdf_urls[keyword]
     end
-    pdf_url = BASE_URL + pdf_urls[pdf_urls.length-2]
-    if pdf_url == BASE_URL then
-      raise "URLリンクが見つかりません。"
-    end
-
-    return pdf_url
   end
 
   def self.download_link(pdfurl)
