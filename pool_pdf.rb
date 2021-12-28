@@ -29,18 +29,12 @@ class PoolPdf
     reiwa_to_s = reiwa == 1 ? "元" : reiwa.to_s
     month_to_s = date.month.to_s
     keyword = "温水プール利用形式令和#{reiwa_to_s}年#{month_to_s}月"
-    xpath = "//p[contains(text(),'温水プールの予定')]"
-    page.xpath(xpath).each do |p|
-      offset = 1
-      pdf_urls = {}
-      p.xpath("a" % keyword).each_with_index do |a, i|
-        if i > 1 then offset = 2 end
-        label = p.xpath("text()[#{i + offset}]").text().gsub(/　/," ").strip()
-        href = a[:href]
-#        puts label + ":" + href
-        pdf_urls[label] = href
-      end
-      return BASE_URL + pdf_urls[keyword]
+#    puts keyword
+    xpath = "//a[contains(text(), '#{keyword}')]"
+    page.xpath(xpath).each do |a|
+      href = a[:href]
+#      puts href
+      return BASE_URL + href
     end
   end
 
