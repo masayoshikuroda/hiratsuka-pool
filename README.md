@@ -11,6 +11,8 @@ $ sudo apt-get install poppler-utils
 $ sudo apt-get install ruby
 $ sudo apt-get install ruby-dev
 $ sudo gem install nokogiri
+$ sudo gem install pdftotext
+$ sudo gem install cliver
 
 ```
 
