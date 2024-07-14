@@ -7,10 +7,10 @@
 
 ## ライブラリ
 ```
-$ apt-get install poppler-utils
-$ apt-get install ruby
-$ apt-get install ruby-dev
-$ gem install nokogiri
+$ sudo apt-get install poppler-utils
+$ sudo apt-get install ruby
+$ sudo apt-get install ruby-dev
+$ sudo gem install nokogiri
 
 ```
 
