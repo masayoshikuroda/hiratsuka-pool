@@ -1,5 +1,6 @@
 require 'date'
 require 'open-uri'
+require 'nokogiri/class_resolver'
 require 'nokogiri'
 
 class PoolPdf
